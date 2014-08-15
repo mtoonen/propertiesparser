@@ -121,10 +121,11 @@ public class Properties implements Propertable {
         bw.flush();
     }
 
-    private LineType getType(String line) {
-        if (line.isEmpty()) {
+    LineType getType(String line) {
+        String copy = line.trim();
+        if (copy.isEmpty()) {
             return LineType.EMPTY;
-        } else if (line.startsWith("#")) {
+        } else if (copy.startsWith("#")) {
             return LineType.COMMENT;
         } else {
             return LineType.PROPERTY;
