@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -107,6 +108,11 @@ public class Properties {
     
     public void store (OutputStream out, String comments) throws IOException{
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+        store(bw, comments);
+    }
+    
+    public void store (Writer out, String comments) throws IOException{
+        BufferedWriter bw = new BufferedWriter(out);
         if(comments != null){
             bw.write(comments);
         }
@@ -115,7 +121,6 @@ public class Properties {
             bw.write(property.toString());
         }
         bw.flush();
-        
     }
     
     private LineType getType(String line){
