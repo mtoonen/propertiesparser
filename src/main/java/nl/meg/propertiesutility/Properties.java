@@ -35,7 +35,12 @@ public class Properties implements Propertable {
 
     @Override
     public void setProperty(String key, String value) {
-        Property p = new Property(key, value, propertyList.size(), LineType.PROPERTY);
+        key = key.trim();
+        String val = value;
+        while (val.charAt(0)== ' '){
+            val = val.substring(1);
+        }
+        Property p = new Property(key, val, propertyList.size(), LineType.PROPERTY);
         propertyList.add(p);
         properties.put(key, p);
     }
@@ -52,13 +57,12 @@ public class Properties implements Propertable {
 
     @Override
     public String getProperty(String property) {
-        return properties.containsKey(property) ? properties.get(property).getValue() : null;
+        return getProperty(property, null);
     }
 
     @Override
     public String getProperty(String property, String defaultValue) {
-        String returnValue = getProperty(property);
-        return returnValue != null ? returnValue : defaultValue;
+        return properties.containsKey(property)  ? properties.get(property).getValue() : defaultValue;
     }
 
     @Override

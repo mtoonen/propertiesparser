@@ -132,7 +132,7 @@ public class Properties2Test {
     private Reader getResourceReader() throws FileNotFoundException, URISyntaxException {
         URL url = PropertiesTest.class.getResource("example.properties");
         URI uri = url.toURI();
-        FileReader fr = spy(new FileReader(new File(uri)));
+        FileReader fr = new FileReader(new File(uri));
         return fr;
     }
     

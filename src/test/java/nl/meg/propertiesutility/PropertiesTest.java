@@ -51,7 +51,7 @@ public class PropertiesTest {
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
         assertEquals("noot", properties.getProperty("aap"));
-        assertEquals("mies", properties.getProperty("noot"));
+        assertEquals("mies", properties.getProperty("jet"));
         verify(properties, times(5)).getProperty(anyString());
     }
     
@@ -63,7 +63,7 @@ public class PropertiesTest {
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
         assertEquals("noot", properties.getProperty("aap"));
-        assertEquals("mies", properties.getProperty("noot"));
+        assertEquals("mies", properties.getProperty("jet"));
         verify(properties, times(5)).getProperty(anyString());
     }
 
@@ -75,7 +75,7 @@ public class PropertiesTest {
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
         assertEquals("noot", properties.getProperty("aap"));
-        assertEquals("mies", properties.getProperty("noot"));
+        assertEquals("mies", properties.getProperty("jet"));
 
         verify(properties, times(5)).getProperty(anyString());
     }
