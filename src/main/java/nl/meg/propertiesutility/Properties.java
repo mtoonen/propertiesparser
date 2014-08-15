@@ -33,20 +33,19 @@ public class Properties implements Propertable {
     private final Map<String, Property> properties = new HashMap<>();
 
     @Override
-    public void setProperty(String key, String value) {
-        key = key.trim();
-        String val = value;
+    public void setProperty(String origKey, String origValue) {
+        String key = origKey.trim();
+        String val = origValue;
         while (val.charAt(0)== ' '){
             val = val.substring(1);
         }
         
-        Property p = new Property(key, val, properties.size(), LineType.PROPERTY);
+        Property p = new Property(key,origKey, val, origValue, properties.size(), LineType.PROPERTY);
         properties.put(key, p);
- 
     }
 
     public void setComment(String comment) {
-        Property p = new Property(comment, LineType.COMMENT, properties.size());
+        Property p = new Property(comment,comment, LineType.COMMENT, properties.size());
         properties.put(""+properties.size(),p);
     }
 

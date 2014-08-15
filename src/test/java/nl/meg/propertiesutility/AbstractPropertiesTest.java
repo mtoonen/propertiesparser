@@ -143,6 +143,11 @@ public abstract class AbstractPropertiesTest<T extends Propertable> {
         properties.setProperty("simplekey", "hardervalue");
         assertEquals("hardervalue",properties.getProperty("simplekey"));
         
+        
+        assertEquals("noot",properties.getProperty("aap"));
+        properties.setProperty("aap", " peul");
+        assertEquals("peul",properties.getProperty("aap"));
+        
     }
     
 

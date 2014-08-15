@@ -12,14 +12,19 @@ package nl.meg.propertiesutility;
  */
 public class Property implements Comparable<Property>{
     private String key;
+    private String origKey;
+    
     private String value;
+    private String origValue;
+    
     private final Integer index;
     private final Properties.LineType lineType;
 
-    public Property(String value, Properties.LineType lineType, Integer index) {
+    public Property(String value,String origValue, Properties.LineType lineType, Integer index) {
         this.value = value;
         this.lineType = lineType;
         this.index = index;
+        this.origValue = origValue;
     }
 
     public Property(Properties.LineType lineType, Integer index) {
@@ -27,11 +32,13 @@ public class Property implements Comparable<Property>{
         this.index = index;
     }
     
-    public Property(String key, String value, Integer index, Properties.LineType lineType) {
+    public Property(String key, String origKey,String value, String origValue,Integer index, Properties.LineType lineType) {
         this.key = key;
         this.value = value;
         this.index = index;
         this.lineType = lineType;
+        this.origValue = origValue;
+        this.origKey = origKey;
     }
 
     public String getKey() {
@@ -61,11 +68,11 @@ public class Property implements Comparable<Property>{
     @Override
     public String toString(){
         if(lineType ==  Properties.LineType.PROPERTY){
-            return key + "=" + value;
+            return origKey + "=" + this.origValue;
         }else if( lineType == Properties.LineType.EMPTY){
             return "";
         }else if( lineType == Properties.LineType.COMMENT){
-            return value;
+            return this.origValue;
         }else{
             System.err.println("Error!");
         }
