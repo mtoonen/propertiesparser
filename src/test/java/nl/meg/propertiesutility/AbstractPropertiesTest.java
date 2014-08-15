@@ -134,6 +134,17 @@ public abstract class AbstractPropertiesTest<T extends Propertable> {
 
         assertEquals(before, after);
     }
+    
+    @Test
+    public void testUpdateExistingProperty() throws FileNotFoundException, URISyntaxException, IOException{
+        Reader reader = spy(getResourceReader());
+        properties.load(reader);
+        assertEquals("simplevalue",properties.getProperty("simplekey"));
+        properties.setProperty("simplekey", "hardervalue");
+        assertEquals("hardervalue",properties.getProperty("simplekey"));
+        
+    }
+    
 
     private Reader getResourceReader() throws FileNotFoundException, URISyntaxException {
         URL url = AbstractPropertiesTest.class.getResource("example.properties");
