@@ -118,8 +118,7 @@ public class Properties {
     }
     
     public void printList(){
-        for (Iterator<Property> it = propertyList.iterator(); it.hasNext();) {
-            Property property = it.next();
+        for (Property property : propertyList) {
             System.out.println(property.toString());
         }
     }
