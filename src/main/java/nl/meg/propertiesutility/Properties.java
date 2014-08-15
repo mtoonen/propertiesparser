@@ -7,16 +7,18 @@
 package nl.meg.propertiesutility;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -86,12 +88,22 @@ public class Properties {
         } catch (IOException ex) {
             System.err.println("Error reader line");
         }finally{
-            in.close();
+            if(in != null){
+                in.close();
+            }
         }
     }
     
-    public void store (OutputStream out, String comments){
-        throw new NotImplementedException();
+    public void store (OutputStream out, String comments) throws IOException{
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+        if(comments != null){
+            bw.write(comments);
+        }
+        Collections.sort(propertyList);
+        for (Property property : propertyList) {
+            bw.write(property.toString());
+        }
+        bw.flush();
         
     }
     
