@@ -1,15 +1,9 @@
 package nl.meg.propertiesutility;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import org.apache.commons.io.IOUtils;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -93,7 +87,7 @@ public class PropertiesTest {
         System.out.println("After:");
         System.out.println(after);
         
-      //  assertEquals(before, after);
+        assertEquals(before, after);
     }
 
     private InputStream getResource() {
