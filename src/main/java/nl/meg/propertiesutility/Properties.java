@@ -54,9 +54,14 @@ public class Properties {
             while((line = reader.readLine()) != null){
                 LineType type = getType(line);
                 switch(type){
+                    case EMPTY:
+                        break;
                     case COMMENT:
                         break;
                     case PROPERTY:
+                        String key = line.substring(0, line.indexOf("="));
+                        String value = line.substring(line.indexOf("="));
+                        setProperty(key, value);
                         break;
                     default:
                         throw new IllegalArgumentException("Entered line invalid: " + line + ". Expected property or comment.");
@@ -73,11 +78,16 @@ public class Properties {
     }
     
     private LineType getType(String line){
-        
-        return LineType.PROPERTY;
+        if(line.isEmpty()){
+            return LineType.EMPTY;
+        }else if(line.startsWith("#")){
+            return LineType.COMMENT;
+        }else{
+            return LineType.PROPERTY;
+        }
     }
     
     public enum LineType {
-        COMMENT, PROPERTY;
+        COMMENT, PROPERTY, EMPTY;
     }
 }
