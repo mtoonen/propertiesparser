@@ -13,16 +13,18 @@ package nl.meg.propertiesutility;
 public class Property implements Comparable<Property>{
     private String key;
     private String value;
-    private Integer index;
-    private Properties.LineType lineType;
+    private final Integer index;
+    private final Properties.LineType lineType;
 
     public Property(String value, Properties.LineType lineType, Integer index) {
         this.value = value;
         this.lineType = lineType;
+        this.index = index;
     }
 
     public Property(Properties.LineType lineType, Integer index) {
         this.lineType = lineType;
+        this.index = index;
     }
     
     public Property(String key, String value, Integer index, Properties.LineType lineType) {
@@ -52,16 +54,8 @@ public class Property implements Comparable<Property>{
         return index;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
-    
     public Properties.LineType getLineType() {
         return lineType;
-    }
-
-    public void setLineType(Properties.LineType lineType) {
-        this.lineType = lineType;
     }
     
     @Override
