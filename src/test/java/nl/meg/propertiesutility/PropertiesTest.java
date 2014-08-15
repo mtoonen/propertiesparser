@@ -3,11 +3,14 @@ package nl.meg.propertiesutility;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
+import org.apache.commons.io.IOUtils;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import org.junit.Before;
@@ -59,7 +62,7 @@ public class PropertiesTest {
 
         verify(properties, times(3)).getProperty(anyString());
     }
-    
+
     @Test
     public void testStoreSimpleKeyValue() throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -67,7 +70,20 @@ public class PropertiesTest {
         properties.store(os, null);
 
         assertEquals("key=value", new String(os.toByteArray()));
-   }
+    }
+
+    @Test
+    public void testStoreExample() throws IOException {
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(getResource(), writer, "UTF-8");
+        String before = writer.toString();
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        properties.load(getResource());
+        properties.store(os, null);
+
+        assertEquals(before, new String(os.toByteArray()));
+    }
 
     private InputStream getResource() {
         InputStream stream = PropertiesTest.class.getResourceAsStream("example.properties");
