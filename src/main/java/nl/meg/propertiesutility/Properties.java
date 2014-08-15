@@ -31,7 +31,6 @@ import org.apache.commons.collections4.iterators.IteratorEnumeration;
 public class Properties implements Propertable {
 
     private final Map<String, Property> properties = new HashMap<>();
- //   private final List<Property> propertyList = new LinkedList<>();
 
     @Override
     public void setProperty(String key, String value) {
@@ -43,18 +42,7 @@ public class Properties implements Propertable {
         
         Property p = new Property(key, val, properties.size(), LineType.PROPERTY);
         properties.put(key, p);
-       
-       /* int index = -1;
-        for (int i = 0 ; i < propertyList.size() ;i ++) {
-            if(propertyList.get(i).getKey().equals(key)){
-                index = i;
-                break;
-            }
-        }
-        if(index != -1){
-            propertyList.remove(index);
-        }
-        propertyList.add(p);*/
+ 
     }
 
     public void setComment(String comment) {
