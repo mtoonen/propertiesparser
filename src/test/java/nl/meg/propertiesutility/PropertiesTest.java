@@ -19,7 +19,7 @@ public class PropertiesTest {
 
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                properties.setProperty("some.super.long.key", "Some text you'll never read !@#$%^&*(*");
+                properties.setProperty("some.super.long.key", "Some text you'll never read !@#$%^&*(*\"");
                 properties.setProperty("parent.child", "val");
                 properties.setProperty("simplekey", "simplevalue");
                 return null;
