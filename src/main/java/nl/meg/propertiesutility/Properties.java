@@ -68,9 +68,9 @@ public class Properties {
     
     public void load(Reader reader){
         try {
-            BufferedReader bufferedReader = (BufferedReader)reader;
+            BufferedReader bufferedReader = new BufferedReader(reader);
             
-            String line = null;
+            String line;
             
             while((line = bufferedReader.readLine()) != null){
                 LineType type = getType(line);
@@ -96,13 +96,8 @@ public class Properties {
     }
     
     public void load(InputStream in) throws IOException {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        try (InputStreamReader reader = new InputStreamReader(in)){
             load(reader);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
     }
     
