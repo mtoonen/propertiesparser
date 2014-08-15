@@ -95,8 +95,12 @@ public class Properties {
     public void store(Writer out, String comments) throws IOException {
         BufferedWriter bw = new BufferedWriter(out);
         if (comments != null) {
+            if(!comments.startsWith("#")) {
+                bw.write('#');
+            }
             bw.write(comments);
         }
+        
         Collections.sort(propertyList);
         for (int i = 0; i < propertyList.size(); i++) {
             if (i > 0) {
@@ -105,6 +109,7 @@ public class Properties {
             Property prop = propertyList.get(i);
             bw.write(prop.toString());
         }
+        
         bw.flush();
     }
 
