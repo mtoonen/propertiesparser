@@ -13,10 +13,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -117,10 +117,9 @@ public class Properties {
         }
     }
     
-    public void printList(){
-        for (Iterator<Property> it = propertyList.iterator(); it.hasNext();) {
-            Property property = it.next();
-            System.out.println(property.toString());
+    public void list(PrintWriter pw){
+        for (Property property : propertyList) {
+            pw.println(property.toString());
         }
     }
     public enum LineType {

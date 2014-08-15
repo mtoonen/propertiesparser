@@ -40,7 +40,6 @@ public class PropertiesTest {
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
-
         verify(properties, times(3)).getProperty(anyString());
     }
 
