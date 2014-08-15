@@ -109,6 +109,7 @@ public class Properties {
     public void store (OutputStream out, String comments) throws IOException{
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
         store(bw, comments);
+        out.flush();
     }
     
     public void store (Writer out, String comments) throws IOException{
