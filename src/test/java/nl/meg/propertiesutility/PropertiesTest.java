@@ -1,5 +1,6 @@
 package nl.meg.propertiesutility;
 
+import java.io.IOException;
 import java.io.InputStream;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -13,7 +14,7 @@ public class PropertiesTest {
     private final Properties properties = spy(new Properties());
 
     @Before
-    public void before() {
+    public void before() throws IOException {
         doAnswer(new Answer() {
 
             @Override
@@ -45,7 +46,7 @@ public class PropertiesTest {
     }
 
     @Test
-    public void testLoad() {
+    public void testLoad() throws IOException {
         properties.load(PropertiesTest.class.getResourceAsStream("example.properties"));
         assertEquals("Some text you'll never read !@#$%^&*(*", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
