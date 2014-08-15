@@ -6,8 +6,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 public class PropertiesTest {
 
@@ -15,9 +13,9 @@ public class PropertiesTest {
 
     @Before
     public void before() throws IOException {
-        
+
     }
-    
+
     @Test
     public void testStoreSimpleKeyValue() {
         properties.setProperty("key", "value");
@@ -42,24 +40,24 @@ public class PropertiesTest {
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
-        
+
         verify(properties, times(3)).getProperty(anyString());
     }
-    
-     @Test
+
+    @Test
     public void testLoadJavaProperties() throws IOException {
         java.util.Properties properties = spy(new java.util.Properties());
         properties.load(getResource());
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
-        
+
         verify(properties, times(3)).getProperty(anyString());
     }
-    
+
     private InputStream getResource() {
         InputStream stream = PropertiesTest.class.getResourceAsStream("example.properties");
-        if(stream == null) {
+        if (stream == null) {
             stream = PropertiesTest.class.getResourceAsStream("/example.properties");
         }
         return stream;
