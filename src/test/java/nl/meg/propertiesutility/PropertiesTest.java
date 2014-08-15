@@ -29,7 +29,5 @@ public class PropertiesTest {
     public void load() {
         properties.load(PropertiesTest.class.getResourceAsStream("example.properties"));
         
-        //test
-        
     }
 }
