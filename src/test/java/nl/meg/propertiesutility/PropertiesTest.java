@@ -50,7 +50,9 @@ public class PropertiesTest {
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
-        verify(properties, times(3)).getProperty(anyString());
+        assertEquals("noot", properties.getProperty("aap"));
+        assertEquals("mies", properties.getProperty("noot"));
+        verify(properties, times(5)).getProperty(anyString());
     }
     
     @Test
@@ -60,7 +62,9 @@ public class PropertiesTest {
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
-        verify(properties, times(3)).getProperty(anyString());
+        assertEquals("noot", properties.getProperty("aap"));
+        assertEquals("mies", properties.getProperty("noot"));
+        verify(properties, times(5)).getProperty(anyString());
     }
 
     @Test
@@ -70,8 +74,10 @@ public class PropertiesTest {
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
+        assertEquals("noot", properties.getProperty("aap"));
+        assertEquals("mies", properties.getProperty("noot"));
 
-        verify(properties, times(3)).getProperty(anyString());
+        verify(properties, times(5)).getProperty(anyString());
     }
 
     @Test
@@ -128,10 +134,25 @@ public class PropertiesTest {
         assertEquals(before, after);
     }
     
+    @Test
+    public void testGetType(){
+        assertEquals(Properties.LineType.COMMENT, properties.getType("#aapnootmies"));
+        assertEquals(Properties.LineType.COMMENT, properties.getType("##aapnootmies"));
+        assertEquals(Properties.LineType.COMMENT, properties.getType("  #aapnootmies"));
+        
+        assertEquals(Properties.LineType.EMPTY, properties.getType(""));
+        assertEquals(Properties.LineType.EMPTY, properties.getType(System.getProperty("line.separator")));
+        assertEquals(Properties.LineType.EMPTY, properties.getType("" +System.getProperty("line.separator")));
+        
+        assertEquals(Properties.LineType.PROPERTY, properties.getType("aap=noot"));
+        assertEquals(Properties.LineType.PROPERTY, properties.getType("   aap=noot"));
+        assertEquals(Properties.LineType.PROPERTY, properties.getType("aap = noot"));
+    }
+    
     private Reader getResourceReader() throws FileNotFoundException, URISyntaxException {
         URL url = PropertiesTest.class.getResource("example.properties");
         URI uri = url.toURI();
-        FileReader fr = spy(new FileReader(new File(uri)));
+        FileReader fr = new FileReader(new File(uri));
         return fr;
     }
     
