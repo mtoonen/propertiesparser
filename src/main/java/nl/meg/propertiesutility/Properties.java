@@ -6,6 +6,8 @@
 
 package nl.meg.propertiesutility;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,5 +37,13 @@ public class Properties {
         }else{
             return defaultValue;
         }
+    }
+    
+    public void load(InputStream in){
+        
+    }
+    
+    public void store (OutputStream out, String comments){
+        
     }
 }
