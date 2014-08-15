@@ -82,7 +82,15 @@ public class PropertiesTest {
         properties.load(getResource());
         properties.store(os, null);
 
-        assertEquals(before, new String(os.toByteArray()));
+        String after = new String(os.toByteArray());
+        
+        System.out.println("Before:");
+        System.out.println(before);
+        System.out.println();
+        System.out.println("After:");
+        System.out.println(after);
+        
+        assertEquals(before, after);
     }
 
     private InputStream getResource() {
