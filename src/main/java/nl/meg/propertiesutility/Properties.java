@@ -15,10 +15,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +31,7 @@ import org.apache.commons.collections4.iterators.IteratorEnumeration;
 public class Properties implements Propertable {
 
     private final Map<String, Property> properties = new HashMap<>();
-    private final List<Property> propertyList = new LinkedList<>();
+ //   private final List<Property> propertyList = new LinkedList<>();
 
     @Override
     public void setProperty(String key, String value) {
@@ -40,19 +40,31 @@ public class Properties implements Propertable {
         while (val.charAt(0)== ' '){
             val = val.substring(1);
         }
-        Property p = new Property(key, val, propertyList.size(), LineType.PROPERTY);
-        propertyList.add(p);
+        
+        Property p = new Property(key, val, properties.size(), LineType.PROPERTY);
         properties.put(key, p);
+       
+       /* int index = -1;
+        for (int i = 0 ; i < propertyList.size() ;i ++) {
+            if(propertyList.get(i).getKey().equals(key)){
+                index = i;
+                break;
+            }
+        }
+        if(index != -1){
+            propertyList.remove(index);
+        }
+        propertyList.add(p);*/
     }
 
     public void setComment(String comment) {
-        Property p = new Property(comment, LineType.COMMENT, propertyList.size());
-        propertyList.add(p);
+        Property p = new Property(comment, LineType.COMMENT, properties.size());
+        properties.put(""+properties.size(),p);
     }
 
     public void setEmpty() {
-        Property p = new Property(LineType.EMPTY, propertyList.size());
-        propertyList.add(p);
+        Property p = new Property(LineType.EMPTY, properties.size());
+        properties.put(""+properties.size(),p);
     }
 
     @Override
@@ -112,6 +124,7 @@ public class Properties implements Propertable {
             }
             bw.write(comments);
         }
+        List<Property> propertyList = new ArrayList(properties.values());
 
         Collections.sort(propertyList);
         for (int i = 0; i < propertyList.size(); i++) {
@@ -137,7 +150,7 @@ public class Properties implements Propertable {
     }
 
     public void list(PrintWriter pw) {
-        for (Property property : propertyList) {
+        for (Property property : properties.values()) {
             pw.println(property.toString());
         }
     }
