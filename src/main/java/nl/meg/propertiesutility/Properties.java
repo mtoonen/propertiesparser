@@ -103,11 +103,11 @@ public class Properties {
         }
         Collections.sort(propertyList);
         for (int i = 0; i < propertyList.size(); i++) {
-            Property prop = propertyList.get(i);
-            bw.write(prop.toString());
-            if (i + 1 < propertyList.size()) {
+            if (i > 0) {
                 bw.write(System.getProperty("line.separator"));
             }
+            Property prop = propertyList.get(i);
+            bw.write(prop.toString());
         }
         bw.flush();
     }
