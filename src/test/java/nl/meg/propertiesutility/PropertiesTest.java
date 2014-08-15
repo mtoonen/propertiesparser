@@ -48,7 +48,7 @@ public class PropertiesTest {
     @Test
     public void testLoad() throws IOException {
         properties.load(PropertiesTest.class.getResourceAsStream("example.properties"));
-        assertEquals("Some text you'll never read !@#$%^&*(*", properties.getProperty("some.super.long.key"));
+        assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
         
@@ -58,11 +58,19 @@ public class PropertiesTest {
      @Test
     public void testLoadJavaProperties() throws IOException {
         java.util.Properties properties = spy(new java.util.Properties());
-        properties.load(PropertiesTest.class.getResourceAsStream("example.properties"));
+        properties.load(getResource());
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
         
         verify(properties, times(3)).getProperty(anyString());
+    }
+    
+    private InputStream getResource() {
+        InputStream stream = PropertiesTest.class.getResourceAsStream("example.properties");
+        if(stream == null) {
+            stream = PropertiesTest.class.getResourceAsStream("/example.properties");
+        }
+        return stream;
     }
 }
