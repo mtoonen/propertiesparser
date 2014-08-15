@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.collections4.iterators.IteratorEnumeration;
 
 /**
@@ -123,6 +124,10 @@ public class Properties {
         for (Property property : propertyList) {
             pw.println(property.toString());
         }
+    }
+    
+    public Set<String> stringPropertyNames(){
+        return properties.keySet();
     }
     
     public Enumeration<?> propertyNames(){
