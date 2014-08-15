@@ -2,9 +2,11 @@ package nl.meg.propertiesutility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,7 +46,7 @@ public class PropertiesTest {
 
     @Test
     public void testLoad() throws IOException {
-        properties.load(getResource());
+        properties.load(getResourceStream());
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
@@ -53,11 +55,8 @@ public class PropertiesTest {
     
     @Test
     public void testLoadReader() throws IOException, URISyntaxException {
-        
-        URL url = PropertiesTest.class.getResource("example.properties");
-        URI uri = url.toURI();
-        FileReader fr = spy(new FileReader(new File(uri)));
-        properties.load(fr);
+        Reader reader = spy(getResourceReader());
+        properties.load(reader);
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
@@ -67,7 +66,7 @@ public class PropertiesTest {
     @Test
     public void testLoadJavaProperties() throws IOException {
         java.util.Properties properties = spy(new java.util.Properties());
-        properties.load(getResource());
+        properties.load(getResourceStream());
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
@@ -87,11 +86,11 @@ public class PropertiesTest {
     @Test
     public void testStoreExample() throws IOException {
         StringWriter writer = new StringWriter();
-        IOUtils.copy(getResource(), writer, "UTF-8");
+        IOUtils.copy(getResourceStream(), writer, "UTF-8");
         String before = writer.toString();
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        InputStream resource = spy(getResource());
+        InputStream resource = spy(getResourceStream());
         properties.load(resource);
         properties.store(os, null);
         
@@ -110,14 +109,12 @@ public class PropertiesTest {
     @Test
     public void testStoreReaderExample() throws IOException, URISyntaxException {
         StringWriter writer = new StringWriter();
-        IOUtils.copy(getResource(), writer, "UTF-8");
+        IOUtils.copy(getResourceStream(), writer, "UTF-8");
         String before = writer.toString();
-
-        URL url = PropertiesTest.class.getResource("example.properties");
-        URI uri = url.toURI();
-        FileReader fr = spy(new FileReader(new File(uri)));
+       
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        properties.load(fr);
+        Reader reader = getResourceReader();
+        properties.load(reader);
         properties.store(os, null);
         
         String after = new String(os.toByteArray());
@@ -131,7 +128,14 @@ public class PropertiesTest {
         assertEquals(before, after);
     }
     
-    private InputStream getResource() {
+    private Reader getResourceReader() throws FileNotFoundException, URISyntaxException {
+        URL url = PropertiesTest.class.getResource("example.properties");
+        URI uri = url.toURI();
+        FileReader fr = spy(new FileReader(new File(uri)));
+        return fr;
+    }
+    
+    private InputStream getResourceStream() {
         InputStream stream = PropertiesTest.class.getResourceAsStream("example.properties");
         if (stream == null) {
             stream = PropertiesTest.class.getResourceAsStream("/example.properties");
