@@ -17,9 +17,11 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.collections4.iterators.IteratorEnumeration;
 
@@ -28,12 +30,13 @@ import org.apache.commons.collections4.iterators.IteratorEnumeration;
  * @author meine
  */
 public class Properties {
-
+    private final Map<String,Property> properties = new HashMap<>();
     private final List<Property> propertyList = new LinkedList<>();
 
     public void setProperty(String key, String value) {
         Property p = new Property(key, value, propertyList.size(), LineType.PROPERTY);
         propertyList.add(p);
+        properties.put(key, p);
     }
 
     public void setComment(String comment) {
@@ -47,12 +50,7 @@ public class Properties {
     }
 
     public String getProperty(String property) {
-        for (Property prop : propertyList) {
-            if (prop.getLineType() == LineType.PROPERTY && prop.getKey().equals(property)) {
-                return prop.getValue();
-            }
-        }
-        return null;
+        return properties.containsKey(property) ? properties.get(property).getValue() : null;
     }
 
     public String getProperty(String property, String defaultValue) {
@@ -129,11 +127,7 @@ public class Properties {
     }
 
     public Set<String> stringPropertyNames() {
-        Set<String> props = new HashSet<>();
-        for (Property property : propertyList) {
-            props.add(property.getKey());
-        }
-        return props;
+        return properties.keySet();
     }
 
     public Enumeration<?> propertyNames() {
