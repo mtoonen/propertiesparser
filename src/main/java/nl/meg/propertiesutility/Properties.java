@@ -16,9 +16,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections4.iterators.IteratorEnumeration;
 
 /**
  *
@@ -122,6 +124,12 @@ public class Properties {
             pw.println(property.toString());
         }
     }
+    
+    public Enumeration<?> propertyNames(){
+        Enumeration enumeration = new IteratorEnumeration(properties.keySet().iterator());
+        return enumeration;
+    }
+    
     public enum LineType {
         COMMENT, PROPERTY, EMPTY;
     }
