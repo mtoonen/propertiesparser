@@ -11,10 +11,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -22,7 +23,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * @author meine
  */
 public class Properties {
-    private final Map<String, String> properties = new HashMap<>();
+    private Map<String, String> properties = new HashMap<>();
+    private List<Property> propertyList = new ArrayList<>();
    
     public Properties(){
 
@@ -31,6 +33,18 @@ public class Properties {
     
     public void setProperty(String key, String value){
         properties.put(key, value);
+        Property p = new Property(key, value, propertyList.size(), LineType.PROPERTY);
+        propertyList.add(p);
+    }
+    
+    public void setComment(String comment){
+        Property p = new Property( comment, LineType.COMMENT, propertyList.size());
+        propertyList.add(p);
+    }
+    
+    public void setEmpty(){
+        Property p = new Property(LineType.EMPTY, propertyList.size());
+        propertyList.add(p);
     }
     
     public String getProperty(String property){
@@ -55,8 +69,10 @@ public class Properties {
                 LineType type = getType(line);
                 switch(type){
                     case EMPTY:
+                        setEmpty();
                         break;
                     case COMMENT:
+                        setComment(line);
                         break;
                     case PROPERTY:
                         String key = line.substring(0, line.indexOf("="));
@@ -64,7 +80,7 @@ public class Properties {
                         setProperty(key, value);
                         break;
                     default:
-                        throw new IllegalArgumentException("Entered line invalid: " + line + ". Expected property or comment.");
+                        throw new IllegalArgumentException("Entered line is invalid: " + line + ". Expected property or comment.");
                 }
             }
         } catch (IOException ex) {
@@ -89,6 +105,12 @@ public class Properties {
         }
     }
     
+    public void printList(){
+        for (Iterator<Property> it = propertyList.iterator(); it.hasNext();) {
+            Property property = it.next();
+            System.out.println(property.toString());
+        }
+    }
     public enum LineType {
         COMMENT, PROPERTY, EMPTY;
     }
