@@ -17,6 +17,8 @@ import java.io.Writer;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -26,6 +28,16 @@ public class Properties2 implements Propertable {
 
     private final LinkedList<Object> properties = new LinkedList<>();
     private final HashMap<String, AbstractMap.SimpleEntry<String, String>> lookup = new HashMap<>();
+    private static Pattern PATTERN;
+
+    static {
+        try {
+            //(\\\\s*=\\\\s*)([\\^]+)
+            PATTERN = Pattern.compile("([\\^]+)(\\\\s*=\\\\s*)([\\^]+)");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void setProperty(String key, String value) {
@@ -55,20 +67,23 @@ public class Properties2 implements Propertable {
             load(reader);
         }
     }
-     @Override
+
+    @Override
     public void load(Reader reader) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(reader);
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             if (!line.startsWith("#") && line.contains("=")) {
-                int index = line.indexOf("=");
-                setProperty(line.substring(0, index), line.substring(index + 1));
+                Matcher matcher = PATTERN.matcher(line);
+                matcher.group();
+                if(matcher.find()){
+                    setProperty(matcher.group(1), matcher.group(2));
+                }
             } else {
                 properties.add(line);
             }
         }
     }
-
 
     @Override
     public void store(OutputStream out, String comments) throws IOException {
@@ -79,7 +94,7 @@ public class Properties2 implements Propertable {
     public void store(Writer out, String comments) throws IOException {
         store(new PrintWriter(out), comments);
     }
-    
+
     private void store(PrintWriter out, String comments) throws IOException {
         try (PrintWriter writer = new PrintWriter(out)) {
             if (comments != null) {
