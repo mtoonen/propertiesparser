@@ -50,6 +50,19 @@ public class PropertiesTest {
         assertEquals("simplevalue", properties.getProperty("simplekey"));
         verify(properties, times(3)).getProperty(anyString());
     }
+    
+    @Test
+    public void testLoadReader() throws IOException, URISyntaxException {
+        
+        URL url = PropertiesTest.class.getResource("example.properties");
+        URI uri = url.toURI();
+        FileReader fr = spy(new FileReader(new File(uri)));
+        properties.load(fr);
+        assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
+        assertEquals("val", properties.getProperty("parent.child"));
+        assertEquals("simplevalue", properties.getProperty("simplekey"));
+        verify(properties, times(3)).getProperty(anyString());
+    }
 
     @Test
     public void testLoadJavaProperties() throws IOException {
