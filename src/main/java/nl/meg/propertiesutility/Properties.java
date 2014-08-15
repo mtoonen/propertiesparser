@@ -67,7 +67,7 @@ public class Properties {
     }
     
     public void load(Reader reader){
-            try {
+        try {
             BufferedReader bufferedReader = (BufferedReader)reader;
             
             String line = null;
@@ -87,11 +87,11 @@ public class Properties {
                         setProperty(key, value);
                         break;
                     default:
-                        throw new IllegalArgumentException("Entered line is invalid: " + line + ". Expected property or comment.");
+                        throw new IllegalArgumentException("Entered line is invalid: " + line + ". Expected property, empty or comment.");
                 }
             }
         } catch (IOException ex) {
-            System.err.println("Error reader line");
+            System.err.println("Error reader line:" + ex.getLocalizedMessage());
         }
     }
     
