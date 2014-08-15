@@ -28,10 +28,12 @@ import org.apache.commons.collections4.iterators.IteratorEnumeration;
  *
  * @author meine
  */
-public class Properties {
-    private final Map<String,Property> properties = new HashMap<>();
+public class Properties implements Propertable {
+
+    private final Map<String, Property> properties = new HashMap<>();
     private final List<Property> propertyList = new LinkedList<>();
 
+    @Override
     public void setProperty(String key, String value) {
         Property p = new Property(key, value, propertyList.size(), LineType.PROPERTY);
         propertyList.add(p);
@@ -48,15 +50,18 @@ public class Properties {
         propertyList.add(p);
     }
 
+    @Override
     public String getProperty(String property) {
         return properties.containsKey(property) ? properties.get(property).getValue() : null;
     }
 
+    @Override
     public String getProperty(String property, String defaultValue) {
         String returnValue = getProperty(property);
         return returnValue != null ? returnValue : defaultValue;
     }
 
+    @Override
     public void load(Reader reader) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -81,26 +86,29 @@ public class Properties {
         }
     }
 
+    @Override
     public void load(InputStream in) throws IOException {
         InputStreamReader reader = new InputStreamReader(in);
         load(reader);
     }
 
+    @Override
     public void store(OutputStream out, String comments) throws IOException {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
         store(bw, comments);
         out.flush();
     }
 
+    @Override
     public void store(Writer out, String comments) throws IOException {
         BufferedWriter bw = new BufferedWriter(out);
         if (comments != null) {
-            if(!comments.startsWith("#")) {
+            if (!comments.startsWith("#")) {
                 bw.write('#');
             }
             bw.write(comments);
         }
-        
+
         Collections.sort(propertyList);
         for (int i = 0; i < propertyList.size(); i++) {
             if (i > 0) {
@@ -109,7 +117,7 @@ public class Properties {
             Property prop = propertyList.get(i);
             bw.write(prop.toString());
         }
-        
+
         bw.flush();
     }
 
