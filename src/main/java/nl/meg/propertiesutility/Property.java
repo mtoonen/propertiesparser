@@ -75,6 +75,6 @@ public class Property implements Comparable<Property>{
     
     @Override
     public int compareTo(Property o) {
-        return o.getIndex().compareTo(this.getIndex());
+        return this.getIndex().compareTo(o.getIndex());
     }
 }
