@@ -18,7 +18,6 @@ import java.io.Writer;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +82,8 @@ public class Properties {
     }
 
     public void load(InputStream in) throws IOException {
-        try (InputStreamReader reader = new InputStreamReader(in)) {
-            load(reader);
-        }
+        InputStreamReader reader = new InputStreamReader(in);
+        load(reader);
     }
 
     public void store(OutputStream out, String comments) throws IOException {

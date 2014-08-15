@@ -1,9 +1,14 @@
 package nl.meg.propertiesutility;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import org.apache.commons.io.IOUtils;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -77,8 +82,6 @@ public class PropertiesTest {
         properties.load(resource);
         properties.store(os, null);
         
-        verify(resource).close();
-
         String after = new String(os.toByteArray());
         
         System.out.println("Before:");
@@ -89,7 +92,32 @@ public class PropertiesTest {
         
         assertEquals(before, after);
     }
+    
+    
+    @Test
+    public void testStoreReaderExample() throws IOException, URISyntaxException {
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(getResource(), writer, "UTF-8");
+        String before = writer.toString();
 
+        URL url = PropertiesTest.class.getResource("example.properties");
+        URI uri = url.toURI();
+        FileReader fr = spy(new FileReader(new File(uri)));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        properties.load(fr);
+        properties.store(os, null);
+        
+        String after = new String(os.toByteArray());
+        
+        System.out.println("Before:");
+        System.out.println(before);
+        System.out.println();
+        System.out.println("After:");
+        System.out.println(after);
+        
+        assertEquals(before, after);
+    }
+    
     private InputStream getResource() {
         InputStream stream = PropertiesTest.class.getResourceAsStream("example.properties");
         if (stream == null) {
