@@ -8,6 +8,7 @@ package nl.meg.propertiesutility;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -15,10 +16,11 @@ import java.io.FileNotFoundException;
  */
 public class Runner {
     
-    public static void main (String[] args) throws FileNotFoundException{
+    public static void main (String[] args) throws FileNotFoundException, IOException{
         Properties props = new Properties();
         FileInputStream fis = new FileInputStream("voorbeeld.properties");
         props.load(fis);
+        props.printList();
     }
     
 }
