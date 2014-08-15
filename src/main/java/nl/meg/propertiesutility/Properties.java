@@ -36,22 +36,22 @@ public class Properties implements Propertable {
     public void setProperty(String origKey, String origValue) {
         String key = origKey.trim();
         String val = origValue;
-        while (val.charAt(0)== ' '){
+        while (val.charAt(0) == ' ') {
             val = val.substring(1);
         }
-        
-        Property p = new Property(key,origKey, val, origValue, properties.size(), LineType.PROPERTY);
+
+        Property p = new Property(key, origKey, val, origValue, properties.size(), LineType.PROPERTY);
         properties.put(key, p);
     }
 
     public void setComment(String comment) {
-        Property p = new Property(comment,comment, LineType.COMMENT, properties.size());
-        properties.put(""+properties.size(),p);
+        Property p = new Property(comment, comment, LineType.COMMENT, properties.size());
+        properties.put("" + properties.size(), p);
     }
 
     public void setEmpty() {
         Property p = new Property(LineType.EMPTY, properties.size());
-        properties.put(""+properties.size(),p);
+        properties.put("" + properties.size(), p);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Properties implements Propertable {
 
     @Override
     public String getProperty(String property, String defaultValue) {
-        return properties.containsKey(property)  ? properties.get(property).getValue() : defaultValue;
+        return properties.containsKey(property) ? properties.get(property).getValue() : defaultValue;
     }
 
     @Override
