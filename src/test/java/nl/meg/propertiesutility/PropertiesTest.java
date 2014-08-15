@@ -47,7 +47,7 @@ public class PropertiesTest {
 
     @Test
     public void testLoad() throws IOException {
-        properties.load(PropertiesTest.class.getResourceAsStream("example.properties"));
+        properties.load(getResource());
         assertEquals("Some text you'll never read !@#$%^&*(*\"", properties.getProperty("some.super.long.key"));
         assertEquals("val", properties.getProperty("parent.child"));
         assertEquals("simplevalue", properties.getProperty("simplekey"));
