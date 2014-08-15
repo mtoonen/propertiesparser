@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -64,13 +65,13 @@ public class Properties {
         }
     }
     
-    public void load(InputStream in) throws IOException{
-        
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    public void load(Reader reader){
+            try {
+            BufferedReader bufferedReader = (BufferedReader)reader;
+            
             String line = null;
             
-            while((line = reader.readLine()) != null){
+            while((line = bufferedReader.readLine()) != null){
                 LineType type = getType(line);
                 switch(type){
                     case EMPTY:
@@ -90,8 +91,15 @@ public class Properties {
             }
         } catch (IOException ex) {
             System.err.println("Error reader line");
-        }finally{
-            if(in != null){
+        }
+    }
+    
+    public void load(InputStream in) throws IOException {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            load(reader);
+        } finally {
+            if (in != null) {
                 in.close();
             }
         }
