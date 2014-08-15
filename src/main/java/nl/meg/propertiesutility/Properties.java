@@ -28,4 +28,12 @@ public class Properties {
     public String getProperty(String property){
         return properties.get(property);
     }
+    
+    public String getProperty(String property, String defaultValue){
+        if(properties.containsKey(property)){
+            return properties.get(property);
+        }else{
+            return defaultValue;
+        }
+    }
 }
