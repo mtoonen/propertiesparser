@@ -45,7 +45,7 @@ public class Properties {
         }
     }
     
-    public void load(InputStream in){
+    public void load(InputStream in) throws IOException{
         
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -60,7 +60,7 @@ public class Properties {
                         break;
                     case PROPERTY:
                         String key = line.substring(0, line.indexOf("="));
-                        String value = line.substring(line.indexOf("="));
+                        String value = line.substring(line.indexOf("=") + 1);
                         setProperty(key, value);
                         break;
                     default:
@@ -69,6 +69,8 @@ public class Properties {
             }
         } catch (IOException ex) {
             System.err.println("Error reader line");
+        }finally{
+            in.close();
         }
     }
     
